@@ -162,6 +162,7 @@ angular.module('ymaps', [])
             });
             updatingBounds = false;
         });
+        $scope.initMap({map: self.map});
 
     });
 }])
@@ -173,7 +174,8 @@ angular.module('ymaps', [])
         transclude: true,
         scope: {
             center: '=',
-            zoom: '='
+            zoom: '=',
+            initMap: '&'
         },
         link: function($scope, element, attrs, ctrl, transcludeFn) {
             ymapsLoader.ready(function() {
@@ -194,7 +196,8 @@ angular.module('ymaps', [])
             coordinates: '=',
             index: '=',
             properties: '=',
-            options: '='
+            options: '=',
+            initMarker: '='
         },
         link: function ($scope, elm, attr, mapCtrl) {
             var marker;
@@ -207,6 +210,9 @@ angular.module('ymaps', [])
                     mapCtrl.removeMarker(marker);
                 }
                 marker = mapCtrl.addMarker(coord, angular.extend({iconContent: $scope.index}, $scope.properties), $scope.options);
+                if($scope.initMarker){
+                    $scope.initMarker(marker);    
+                }
             }
 
             $scope.$watch("index", function (newVal) {
