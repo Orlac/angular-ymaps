@@ -130,6 +130,7 @@ angular.module('ymaps', [])
         } else {
           $scope.markers = collection;
         }
+        self.markers = $scope.markers;
         self.map.geoObjects.add(collection);
         if(config.fitMarkers) {
             initAutoFit(self.map, collection, ymaps);
@@ -162,7 +163,7 @@ angular.module('ymaps', [])
             });
             updatingBounds = false;
         });
-        $scope.initMap({map: self.map});
+        $scope.initMap({map: self.map, collection: collection});
 
     });
 }])
@@ -211,7 +212,7 @@ angular.module('ymaps', [])
                 }
                 marker = mapCtrl.addMarker(coord, angular.extend({iconContent: $scope.index}, $scope.properties), $scope.options);
                 if($scope.initMarker){
-                    $scope.initMarker(marker);    
+                    $scope.initMarker(marker, mapCtrl.markers);    
                 }
             }
 
